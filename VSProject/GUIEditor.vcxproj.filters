@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Sources\Items">
+      <UniqueIdentifier>{b481c231-06b4-4cd3-b3fd-3097172c81e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Items\ClientAreaPanel">
+      <UniqueIdentifier>{2eb96f82-f8ab-488e-b8db-6cdc36b1a913}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Items\ClientAreaPanel\Items">
+      <UniqueIdentifier>{9cb04ef3-1493-48f7-8eb7-4cc57af14ce7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Items\ClientAreaPanel\Items\GuiEditorGraphicContext">
+      <UniqueIdentifier>{7b92d10a-7f3e-489d-950f-2a7e9573323e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Items\ClientAreaPanel\Items\ToolNotebook">
+      <UniqueIdentifier>{faa92141-1fd9-4cc6-9935-fc203e714de5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items">
+      <UniqueIdentifier>{f49d4d9c-5d65-40a6-875b-19d144fda64b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab">
+      <UniqueIdentifier>{160cfcb9-9f05-420b-a7e1-09c60bb26a18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\Items">
+      <UniqueIdentifier>{c0700c99-58b4-4536-9a3c-7e138c3995ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Items\ClientAreaPanel\Items\GuiEditorGraphicContext\Core">
+      <UniqueIdentifier>{a4e6e47b-60db-42d7-95aa-ccdd6382f846}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\Items\PropertyGridPanel">
+      <UniqueIdentifier>{5bcf7488-2c69-4a29-b037-61ca02c1d39d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Services">
+      <UniqueIdentifier>{63b5d29f-cd45-45c8-8011-8cd6215a5418}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Services\FunctionsProcessing">
+      <UniqueIdentifier>{b0808bc1-bc51-449d-b1d8-3d73b0b37a9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Services\UIThreadFunctionsRunner">
+      <UniqueIdentifier>{05cadf1c-616d-4036-b398-7e22fee60002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Utils">
+      <UniqueIdentifier>{013ebb29-b3c0-4539-ae37-0deb976cbb00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Items\RichButtonGroupBox">
+      <UniqueIdentifier>{c813c164-d959-4aa8-bdc3-bb710cf5e3d1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../Sources\GameUIEditor.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Items\ToolMenu.cpp">
+      <Filter>Sources\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Items\ClientAreaPanel\Items\ToolNotebook\ToolNotebook.cpp">
+      <Filter>Sources\Items\ClientAreaPanel\Items\ToolNotebook</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\AddingObjectsTab.cpp">
+      <Filter>Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\CurrentScreenNodesTab.cpp">
+      <Filter>Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Items\ClientAreaPanel\Items\GuiEditorGraphicContext\GuiEditorGraphicContext.cpp">
+      <Filter>Sources\Items\ClientAreaPanel\Items\GuiEditorGraphicContext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Items\ClientAreaPanel\Items\GuiEditorGraphicContext\Core\CGUIEditWorkspace.cpp">
+      <Filter>Sources\Items\ClientAreaPanel\Items\GuiEditorGraphicContext\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Items\ClientAreaPanel\Items\GuiEditorGraphicContext\Core\CMemoryReadWriteFile.cpp">
+      <Filter>Sources\Items\ClientAreaPanel\Items\GuiEditorGraphicContext\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Items\ClientAreaPanel\ClientAreaPanel.cpp">
+      <Filter>Sources\Items\ClientAreaPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\Items\PropertyGridPanel\GuiElementPropertyGrid.cpp">
+      <Filter>Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\Items\PropertyGridPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\Items\PropertyGridPanel\PropertyGridFactory.cpp">
+      <Filter>Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\Items\PropertyGridPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\Items\PropertyGridPanel\ImageGuiElementPropertyGrid.cpp">
+      <Filter>Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\Items\PropertyGridPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\Items\PropertyGridPanel\ListBoxGuiElementPropertyGrid.cpp">
+      <Filter>Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\Items\PropertyGridPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Plugin.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Services\FunctionsProcessing\FunctionsProcessingManager.cpp">
+      <Filter>Sources\Services\FunctionsProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Services\UIThreadFunctionsRunner\UIThreadFunctionsRunner.cpp">
+      <Filter>Sources\Services\UIThreadFunctionsRunner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Utils\Convert.cpp">
+      <Filter>Sources\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Items\RichButtonGroupBox\RichButtonGroupBox.cpp">
+      <Filter>Sources\Items\RichButtonGroupBox</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="../Sources\GameUIEditor.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Items\ToolMenu.h">
+      <Filter>Sources\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Items\ClientAreaPanel\Items\ToolNotebook\ToolNotebook.h">
+      <Filter>Sources\Items\ClientAreaPanel\Items\ToolNotebook</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\AddingObjectsTab.h">
+      <Filter>Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\CurrentScreenNodesTab.h">
+      <Filter>Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Items\ClientAreaPanel\Items\GuiEditorGraphicContext\GuiEditorGraphicContext.h">
+      <Filter>Sources\Items\ClientAreaPanel\Items\GuiEditorGraphicContext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Items\ClientAreaPanel\Items\GuiEditorGraphicContext\Core\CGUIEditWorkspace.h">
+      <Filter>Sources\Items\ClientAreaPanel\Items\GuiEditorGraphicContext\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Items\ClientAreaPanel\Items\GuiEditorGraphicContext\Core\CMemoryReadWriteFile.h">
+      <Filter>Sources\Items\ClientAreaPanel\Items\GuiEditorGraphicContext\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Items\ClientAreaPanel\ClientAreaPanel.h">
+      <Filter>Sources\Items\ClientAreaPanel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\Items\PropertyGridPanel\GuiElementPropertyGrid.h">
+      <Filter>Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\Items\PropertyGridPanel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\Items\PropertyGridPanel\PropertyGridFactory.h">
+      <Filter>Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\Items\PropertyGridPanel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\Items\PropertyGridPanel\ImageGuiElementPropertyGrid.h">
+      <Filter>Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\Items\PropertyGridPanel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\Items\PropertyGridPanel\ListBoxGuiElementPropertyGrid.h">
+      <Filter>Sources\Items\ClientAreaPanel\Items\ToolNotebook\Items\CurrentScreenNodesTab\Items\PropertyGridPanel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Plugin.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Services\FunctionsProcessing\FunctionsProcessingManager.h">
+      <Filter>Sources\Services\FunctionsProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Services\FunctionsProcessing\IFunctionsProcessingManager.h">
+      <Filter>Sources\Services\FunctionsProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Services\FunctionsProcessing\StandartThreadTypes.h">
+      <Filter>Sources\Services\FunctionsProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Services\UIThreadFunctionsRunner\UIThreadFunctionsRunner.h">
+      <Filter>Sources\Services\UIThreadFunctionsRunner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Utils\EventHandler.h">
+      <Filter>Sources\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Utils\Convert.h">
+      <Filter>Sources\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Utils\ElementIDs.h">
+      <Filter>Sources\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Items\RichButtonGroupBox\RichButtonGroupBox.h">
+      <Filter>Sources\Items\RichButtonGroupBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Utils\LanguageDependents.h">
+      <Filter>Sources\Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
