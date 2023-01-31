@@ -45,7 +45,7 @@ GuiEditorGraphicContext::GuiEditorGraphicContext(
         _editWorkspace->setDrawGrid(true);
         _editWorkspace->onGuiElementSelected.addEventHandler(ON_GUI_ELEMENT_SELECTED_HANDLER, onGuiElementSelected);
 
-        makeNew();
+        //makeNew();
     });
 
     onIrrEvent.addEventHandler(GUI_EDITOR_IRR_EVENT_HANDLER, [&](auto irrEventData) {
@@ -141,6 +141,18 @@ void GuiEditorGraphicContext::_onKeyEvent(wxKeyEvent& eventData)
     default:
         break;
     }
+}
+
+void GuiEditorGraphicContext::_onSizeChanged(wxSizeEvent& eventData)
+{
+    _functionsProcessingManager->addFuctionToQueue(ThreadTypes::RENDER_THREAD, [=]() {
+        float width = eventData.GetSize().GetWidth();
+        width = width ? width : 1;
+        float height = eventData.GetSize().GetHeight();
+        height = height ? height : 1;
+
+        _driver->OnResize(irr::core::dimension2d<irr::u32>(width, height));
+    });
 }
 
 void GuiEditorGraphicContext::addButton(AddGuiElementEventHandler callback)
@@ -405,5 +417,6 @@ CGUIEditWorkspace* GuiEditorGraphicContext::getGuiEditWorkspace()
 wxBEGIN_EVENT_TABLE(GuiEditorGraphicContext, wxPanel)
     EVT_MOUSE_EVENTS(GuiEditorGraphicContext::_onMouseEvent)
         EVT_KEY_UP(GuiEditorGraphicContext::_onKeyEvent)
+            EVT_SIZE(GuiEditorGraphicContext::_onSizeChanged)
             wxEND_EVENT_TABLE()
 }

@@ -72,6 +72,7 @@ private:
 
     void _onMouseEvent(wxMouseEvent& eventData);
     void _onKeyEvent(wxKeyEvent& eventData);
+    void _onSizeChanged(wxSizeEvent& eventData);
 
     boost::shared_ptr<boost::thread> _drawThread;
     boost::shared_ptr<boost::mutex> _renderingMutex;

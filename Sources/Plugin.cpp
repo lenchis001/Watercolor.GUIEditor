@@ -3,6 +3,8 @@
 #include "GameUIEditor.h"
 #include "Services/FunctionsProcessing/FunctionsProcessingManager.h"
 
+#define CURRENR_MODULE_NAME L"GUIEditor.dll"
+
 using namespace GUIEditor;
 
 std::wstring Plugin::getName()
@@ -12,15 +14,17 @@ std::wstring Plugin::getName()
 
 PluginType Plugin::getType()
 {
-    return PluginType::WELCOME_WINDOW;
+    return PluginType::TOP_MENU;
 }
 
 void Plugin::onTopMenuItemClicked(const std::wstring& openedProjectPath, HWND parent) {
     // That's okay, don't worry. wxWidgets library
     // will clean the memory on it's own
     new wxApp();
+    auto handle = GetModuleHandle(CURRENR_MODULE_NAME);
 
-    wxEntryStart(NULL);
+    assert(handle != nullptr);
+    wxEntryStart(handle);
 
     wxWindow parentWindow;
     parentWindow.SetHWND((WXHWND)parent);
