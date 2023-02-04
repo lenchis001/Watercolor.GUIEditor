@@ -45,7 +45,7 @@ GuiEditorGraphicContext::GuiEditorGraphicContext(
         _editWorkspace->setDrawGrid(true);
         _editWorkspace->onGuiElementSelected.addEventHandler(ON_GUI_ELEMENT_SELECTED_HANDLER, onGuiElementSelected);
 
-        //makeNew();
+        makeNew();
     });
 
     onIrrEvent.addEventHandler(GUI_EDITOR_IRR_EVENT_HANDLER, [&](auto irrEventData) {
@@ -57,7 +57,25 @@ GuiEditorGraphicContext::GuiEditorGraphicContext(
 
 GuiEditorGraphicContext::~GuiEditorGraphicContext()
 {
+    _drawThread->interrupt();
+    _drawThread->join();
+
     onIrrEvent.removeEventHandler(GUI_EDITOR_IRR_EVENT_HANDLER);
+}
+
+void GuiEditorGraphicContext::_clearWorkspace()
+{
+    _functionsProcessingManager->addFuctionToQueue(ThreadTypes::RENDER_THREAD, [=]() {
+        auto children = _guiEnvironment->getRootGUIElement()->getChildren();
+
+        for (auto child : children) {
+            if (child != _editWorkspace) {
+                child->remove();
+            }
+        }
+
+        onClear.callHandlers();
+    });
 }
 
 void GuiEditorGraphicContext::_shutdownContext()
@@ -362,14 +380,14 @@ void GuiEditorGraphicContext::makeNew(VoidEventCallback callback)
 
 void GuiEditorGraphicContext::loadSubView(const std::wstring& path, VoidEventCallback callback)
 {
+    _clearWorkspace();
+
     // get rid off this
     _functionsProcessingManager->addFuctionToQueue(ThreadTypes::RENDER_THREAD, [=]() {
-        _guiEnvironment->clear();
-
         this->_currentViewPath = path;
+        
         _guiEnvironment->loadGUI(path.c_str());
 
-        onClear.callHandlers();
         callback();
     });
 }

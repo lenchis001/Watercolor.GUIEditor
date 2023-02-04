@@ -66,6 +66,8 @@ public:
     Utils::EventHandler<irr::SEvent> onIrrEvent;
 
 private:
+    void _clearWorkspace();
+
     void _shutdownContext();
     void _prepareContext();
     inline void _reDraw();
