@@ -8,7 +8,7 @@
 
 namespace GUIEditor {
 boost::shared_ptr<GuiElementPropertyGrid> PropertyGridFactory::getGrid(
-    wxWindow* parent, irr::gui::IGUIElement* element, boost::shared_ptr<GuiEditorGraphicContext> graphicContext)
+    wxWindow* parent, boost::shared_ptr<irr::gui::IGUIElement> element, boost::shared_ptr<GuiEditorGraphicContext> graphicContext)
 {
     boost::shared_ptr<GuiElementPropertyGrid> grid(nullptr);
 

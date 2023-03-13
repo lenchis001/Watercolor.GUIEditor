@@ -33,7 +33,7 @@ private:
     void _changeNamePropertyHandler(wxPGProperty* eventProperty);
     void _changeTextPropertyHandler(wxPGProperty* eventProperty);
     void _changePositionPropertyHandler(wxPGProperty* eventProperty);
-    void _onChangePositionPropertyOutside(irr::gui::IGUIElement* _);
+    void _onChangePositionPropertyOutside(boost::shared_ptr<irr::gui::IGUIElement> _);
 
     irr::core::rect<irr::s32> _parseRect(const std::wstring& textRect);
 

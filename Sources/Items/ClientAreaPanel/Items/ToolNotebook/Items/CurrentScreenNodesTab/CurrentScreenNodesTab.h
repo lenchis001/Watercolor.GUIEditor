@@ -16,7 +16,7 @@ public:
 private:
     void _onUseGridChange(wxCommandEvent& eventData);
 
-    void _onGuiElementSelected(irr::gui::IGUIElement* element);
+    void _onGuiElementSelected(boost::shared_ptr<irr::gui::IGUIElement> element);
     void _onClear(void* _);
 
     wxSizer* _sizer;

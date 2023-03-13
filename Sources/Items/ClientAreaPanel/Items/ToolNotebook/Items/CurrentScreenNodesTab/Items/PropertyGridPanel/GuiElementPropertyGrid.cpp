@@ -108,7 +108,7 @@ void GuiElementPropertyGrid::_addTextProperty()
         TEXT_PROPERTY_NAME, boost::bind(&GuiElementPropertyGrid::_changeTextPropertyHandler, this, boost::placeholders::_1));
 }
 
-void GuiElementPropertyGrid::_onChangePositionPropertyOutside(irr::gui::IGUIElement* _)
+void GuiElementPropertyGrid::_onChangePositionPropertyOutside(boost::shared_ptr<irr::gui::IGUIElement> _)
 {
     auto position = _graphicContext->getSelectedElementPosition();
 

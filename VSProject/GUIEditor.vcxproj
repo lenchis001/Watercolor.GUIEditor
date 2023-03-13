@@ -100,7 +100,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(WXWIDGETS)\Include;$(WATERCOLOR_PLUGINS_V1_API);$(ProjectDir)../Sources;$(WXWIDGETS)\lib\vc_lib\mswud;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_WIN32_WINNT=0x0501;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_WIN32_WINNT=0x0501;_CRT_SECURE_NO_WARNINGS;_IRR_STATIC_LIB_;UNICODE;_IRR_WCHAR_FILESYSTEM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -123,7 +123,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(WXWIDGETS)\Include;$(WATERCOLOR_PLUGINS_V1_API);$(IRRLICHT)/include;$(ProjectDir)../Sources;$(WXWIDGETS)\lib\vc_lib\mswu;$(SolutionDir)Libs\Irrlicht\include;$(BOOST_ROOT);$(SolutionDir)TEngineFramework/TUtils/Sources;$(SolutionDir)TEngineFramework/TCore/Sources;$(SolutionDir)TEngineFramework/TLM/Sources;$(SolutionDir)TEngineFramework/TState/Sources;$(SolutionDir)TEngineFramework/TUI/Sources;$(SolutionDir)TEngineFramework/TAM/Sources;$(OPEN_AL)/include;$(SolutionDir)/Watercolor/GUIEditor.Core/Sources;$(SolutionDir)/Watercolor/Common/Sources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(WXWIDGETS)\Include;$(WATERCOLOR_PLUGINS_V1_API);$(ProjectDir)../Sources;$(WXWIDGETS)\lib\vc_lib\mswud;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_WIN32_WINNT=0x0501;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -144,7 +144,6 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\Irrlicht.1.0.10\build\Irrlicht.targets" Condition="Exists('..\packages\Irrlicht.1.0.10\build\Irrlicht.targets')" />
     <Import Project="..\packages\boost.1.78.0\build\boost.targets" Condition="Exists('..\packages\boost.1.78.0\build\boost.targets')" />
     <Import Project="..\packages\boost_atomic-vc143.1.78.0\build\boost_atomic-vc143.targets" Condition="Exists('..\packages\boost_atomic-vc143.1.78.0\build\boost_atomic-vc143.targets')" />
     <Import Project="..\packages\boost_bzip2-vc143.1.78.0\build\boost_bzip2-vc143.targets" Condition="Exists('..\packages\boost_bzip2-vc143.1.78.0\build\boost_bzip2-vc143.targets')" />
@@ -185,12 +184,12 @@
     <Import Project="..\packages\boost_wserialization-vc143.1.78.0\build\boost_wserialization-vc143.targets" Condition="Exists('..\packages\boost_wserialization-vc143.1.78.0\build\boost_wserialization-vc143.targets')" />
     <Import Project="..\packages\boost_zlib-vc143.1.78.0\build\boost_zlib-vc143.targets" Condition="Exists('..\packages\boost_zlib-vc143.1.78.0\build\boost_zlib-vc143.targets')" />
     <Import Project="..\packages\boost-vc143.1.78.0\build\boost-vc143.targets" Condition="Exists('..\packages\boost-vc143.1.78.0\build\boost-vc143.targets')" />
+    <Import Project="..\packages\IrrlichtN.1.0.17\build\IrrlichtN.targets" Condition="Exists('..\packages\IrrlichtN.1.0.17\build\IrrlichtN.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Irrlicht.1.0.10\build\Irrlicht.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Irrlicht.1.0.10\build\Irrlicht.targets'))" />
     <Error Condition="!Exists('..\packages\boost.1.78.0\build\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.78.0\build\boost.targets'))" />
     <Error Condition="!Exists('..\packages\boost_atomic-vc143.1.78.0\build\boost_atomic-vc143.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost_atomic-vc143.1.78.0\build\boost_atomic-vc143.targets'))" />
     <Error Condition="!Exists('..\packages\boost_bzip2-vc143.1.78.0\build\boost_bzip2-vc143.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost_bzip2-vc143.1.78.0\build\boost_bzip2-vc143.targets'))" />
@@ -231,5 +230,6 @@
     <Error Condition="!Exists('..\packages\boost_wserialization-vc143.1.78.0\build\boost_wserialization-vc143.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost_wserialization-vc143.1.78.0\build\boost_wserialization-vc143.targets'))" />
     <Error Condition="!Exists('..\packages\boost_zlib-vc143.1.78.0\build\boost_zlib-vc143.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost_zlib-vc143.1.78.0\build\boost_zlib-vc143.targets'))" />
     <Error Condition="!Exists('..\packages\boost-vc143.1.78.0\build\boost-vc143.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost-vc143.1.78.0\build\boost-vc143.targets'))" />
+    <Error Condition="!Exists('..\packages\IrrlichtN.1.0.17\build\IrrlichtN.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\IrrlichtN.1.0.17\build\IrrlichtN.targets'))" />
   </Target>
 </Project>

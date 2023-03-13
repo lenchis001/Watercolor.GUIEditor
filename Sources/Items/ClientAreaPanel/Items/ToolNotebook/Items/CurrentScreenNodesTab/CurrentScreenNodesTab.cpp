@@ -45,7 +45,7 @@ void CurrentScreenNodesTab::_onUseGridChange(wxCommandEvent& eventData)
     _graphicContext->getGuiEditWorkspace()->setUseGrid(eventData.IsChecked());
 }
 
-void CurrentScreenNodesTab::_onGuiElementSelected(irr::gui::IGUIElement* element)
+void CurrentScreenNodesTab::_onGuiElementSelected(boost::shared_ptr<irr::gui::IGUIElement> element)
 {
     _functionsProcessingManager->addFuctionToQueue(ThreadTypes::GUI_THREAD, [&, element] {
         if (element) {

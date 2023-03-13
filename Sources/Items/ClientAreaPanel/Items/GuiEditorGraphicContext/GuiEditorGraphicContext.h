@@ -15,7 +15,7 @@
 namespace GUIEditor {
 class CGUIEditWorkspace;
 
-typedef boost::function<void(irr::gui::IGUIElement*)> AddGuiElementEventHandler;
+typedef boost::function<void(boost::shared_ptr<irr::gui::IGUIElement>)> AddGuiElementEventHandler;
 typedef boost::function<void(bool)> BoolEventCallback;
 typedef boost::function<void()> VoidEventCallback;
 
@@ -59,9 +59,9 @@ public:
 
     bool isViewPathSet();
 
-    CGUIEditWorkspace* getGuiEditWorkspace();
+    boost::shared_ptr<CGUIEditWorkspace> getGuiEditWorkspace();
 
-    Utils::EventHandler<irr::gui::IGUIElement*> onGuiElementSelected, onPositionChanged;
+    Utils::EventHandler<boost::shared_ptr<irr::gui::IGUIElement>> onGuiElementSelected, onPositionChanged;
     Utils::EventHandler<void*> onClear;
     Utils::EventHandler<irr::SEvent> onIrrEvent;
 
@@ -80,11 +80,11 @@ private:
     boost::shared_ptr<boost::mutex> _renderingMutex;
     boost::shared_ptr<IFunctionsProcessingManager> _functionsProcessingManager;
 
-    irr::gui::IGUIEnvironment* _guiEnvironment;
-    CGUIEditWorkspace* _editWorkspace;
+    boost::shared_ptr<irr::gui::IGUIEnvironment> _guiEnvironment;
+    boost::shared_ptr<CGUIEditWorkspace> _editWorkspace;
 
-    irr::IrrlichtDevice* _device;
-    irr::video::IVideoDriver* _driver;
+    boost::shared_ptr<irr::IrrlichtDevice> _device;
+    boost::shared_ptr<irr::video::IVideoDriver> _driver;
 
     std::wstring _currentViewPath;
 

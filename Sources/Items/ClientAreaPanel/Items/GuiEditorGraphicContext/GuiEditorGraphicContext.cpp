@@ -41,7 +41,9 @@ GuiEditorGraphicContext::GuiEditorGraphicContext(
     _functionsProcessingManager->addFuctionToQueue(ThreadTypes::RENDER_THREAD, [&]() {
         _guiEnvironment = _device->getGUIEnvironment();
 
-        _editWorkspace = new CGUIEditWorkspace(this, _guiEnvironment);
+        _editWorkspace = boost::make_shared<CGUIEditWorkspace>(this, _guiEnvironment);
+        _editWorkspace->setWeakThis(_editWorkspace);
+
         _editWorkspace->setDrawGrid(true);
         _editWorkspace->onGuiElementSelected.addEventHandler(ON_GUI_ELEMENT_SELECTED_HANDLER, onGuiElementSelected);
 
@@ -254,7 +256,7 @@ void GuiEditorGraphicContext::setSelectedElementName(const std::wstring& newName
         auto selectedElement = _editWorkspace->getSelectedElement();
         auto result = _guiEnvironment->addListBox(irr::core::recti(10, 10, 100, 30), selectedElement);
 
-        callback(result);
+        callback(result.get());
     });
 }
 
@@ -274,7 +276,7 @@ void GuiEditorGraphicContext::setSelectedElementPosition(const irr::core::positi
             onPositionChanged.callHandlers(_editWorkspace->getSelectedElement());
         }
 
-        callback(selectedElement);
+        callback(selectedElement.get());
     });
 }
 
@@ -289,7 +291,7 @@ void GuiEditorGraphicContext::setSelectedElementPosition(const irr::core::recti&
             onPositionChanged.callHandlers(_editWorkspace->getSelectedElement());
         }
 
-        callback(selectedElement);
+        callback(selectedElement.get());
     });
 }
 
@@ -307,7 +309,7 @@ void GuiEditorGraphicContext::setSelectedElementText(const std::wstring& newText
             selectedElement->setText(newText.c_str());
         }
     
-        callback(selectedElement);
+        callback(selectedElement.get());
     });
 }
 
@@ -316,8 +318,7 @@ std::wstring GuiEditorGraphicContext::getSelectImageElementPath() const
     // todo: should be async
     auto selectedElement = _editWorkspace->getSelectedElement();
 
-    auto imageElement = dynamic_cast<irr::gui::IGUIImage*>(selectedElement);
-
+    auto imageElement = boost::dynamic_pointer_cast<irr::gui::IGUIImage>(selectedElement);
 
     return imageElement ? imageElement->getImage()->getName().getPath().c_str() : std::wstring();
 }
@@ -327,7 +328,7 @@ void GuiEditorGraphicContext::setSelectedImageElementPath(const std::wstring& ne
     _functionsProcessingManager->addFuctionToQueue(ThreadTypes::RENDER_THREAD, [=]() {
         auto selectedElement = _editWorkspace->getSelectedElement();
 
-        auto imageElement = dynamic_cast<irr::gui::IGUIImage*>(selectedElement);
+        auto imageElement = boost::dynamic_pointer_cast<irr::gui::IGUIImage>(selectedElement);
 
         if (imageElement) {
             auto newTexture = _guiEnvironment->getVideoDriver()->getTexture(newPath.c_str());
@@ -342,7 +343,7 @@ std::vector<std::wstring> GuiEditorGraphicContext::getSelectedListBoxOptions() c
 {
     auto selectedElement = _editWorkspace->getSelectedElement();
 
-    auto listBox = dynamic_cast<irr::gui::IGUIListBox*>(selectedElement);
+    auto listBox = boost::dynamic_pointer_cast<irr::gui::IGUIListBox>(selectedElement);
 
     if (!listBox) {
         throw std::runtime_error("Element is not a ListBox");
@@ -361,7 +362,7 @@ void GuiEditorGraphicContext::setSelectedListBoxOptions(const std::vector<std::w
 {
     auto selectedElement = _editWorkspace->getSelectedElement();
     
-    auto listBox = dynamic_cast<irr::gui::IGUIListBox*>(selectedElement);
+    auto listBox = boost::dynamic_pointer_cast<irr::gui::IGUIListBox>(selectedElement);
 
     if (!listBox) {
         throw std::runtime_error("Element is not a ListBox");
@@ -427,7 +428,7 @@ bool GuiEditorGraphicContext::isViewPathSet()
     return !_currentViewPath.empty();
 }
 
-CGUIEditWorkspace* GuiEditorGraphicContext::getGuiEditWorkspace()
+boost::shared_ptr<CGUIEditWorkspace> GuiEditorGraphicContext::getGuiEditWorkspace()
 {
     return _editWorkspace;
 }

@@ -26,7 +26,7 @@ enum EGUIEDIT_CUSTOM_EVENTS {
 class CGUIEditWorkspace : public irr::gui::IGUIElement {
 public:
     //! constructor
-    CGUIEditWorkspace(GuiEditorGraphicContext* graphicContext, irr::gui::IGUIEnvironment* environment, irr::s32 id = -1, irr::gui::IGUIElement* parent = 0);
+    CGUIEditWorkspace(GuiEditorGraphicContext* graphicContext, boost::shared_ptr<irr::gui::IGUIEnvironment> environment, irr::s32 id = -1, boost::shared_ptr<irr::gui::IGUIElement> parent = 0);
 
     //! destructor
     ~CGUIEditWorkspace();
@@ -35,7 +35,7 @@ public:
     virtual bool OnEvent(const irr::SEvent& event);
 
     //! Removes a child.
-    virtual void removeChild(irr::gui::IGUIElement* child);
+    virtual void removeChild(boost::shared_ptr<irr::gui::IGUIElement> child);
 
     //! draws the element and its children
     virtual void draw();
@@ -52,15 +52,15 @@ public:
     virtual bool getUseGrid();
 
     //! returns the first editable element under the mouse
-    virtual IGUIElement* getEditableElementFromPoint(IGUIElement* start, const irr::core::position2di& point, irr::s32 index = 0);
+    virtual boost::shared_ptr<IGUIElement> getEditableElementFromPoint(boost::shared_ptr<IGUIElement> start, const irr::core::position2di& point, irr::s32 index = 0);
 
     //! selecting elements
-    virtual void setSelectedElement(IGUIElement* sel);
+    virtual void setSelectedElement(boost::shared_ptr<IGUIElement> sel);
     virtual void selectNextSibling();
     virtual void selectPreviousSibling();
 
     //! returns the selected element
-    virtual IGUIElement* getSelectedElement();
+    virtual boost::shared_ptr<IGUIElement> getSelectedElement();
 
     //! copies the xml of the selected element and all children to the clipboard
     virtual void CopySelectedElementXML();
@@ -68,7 +68,7 @@ public:
     //! copies the xml of the selected element and all children to the clipboard
     virtual void PasteXMLToSelectedElement();
 
-    Utils::EventHandler<irr::gui::IGUIElement*> onGuiElementSelected;
+    Utils::EventHandler<boost::shared_ptr<irr::gui::IGUIElement>> onGuiElementSelected;
 
 private:
     enum EGUIEDIT_MODE {
@@ -124,8 +124,8 @@ private:
     irr::s32 MenuCommandStart;
     bool DrawGrid, UseGrid;
 
-    irr::gui::IGUIElement *MouseOverElement,
-        *SelectedElement;
+    boost::shared_ptr<irr::gui::IGUIElement> MouseOverElement,
+        SelectedElement;
 
     GuiEditorGraphicContext* _graphicContext;
 

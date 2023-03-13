@@ -20,7 +20,7 @@ using namespace irr::gui;
 namespace GUIEditor {
 
 //! constructor
-CGUIEditWorkspace::CGUIEditWorkspace(GuiEditorGraphicContext* graphicContext, IGUIEnvironment* environment, s32 id, IGUIElement* parent)
+CGUIEditWorkspace::CGUIEditWorkspace(GuiEditorGraphicContext* graphicContext, boost::shared_ptr<IGUIEnvironment> environment, s32 id, boost::shared_ptr<IGUIElement> parent)
     : IGUIElement(EGUIET_ELEMENT, environment, parent ? parent : environment->getRootGUIElement(), id, environment->getRootGUIElement()->getAbsolutePosition())
     , CurrentMode(EGUIEDM_SELECT)
     , MouseOverMode(EGUIEDM_SELECT)
@@ -87,18 +87,18 @@ CGUIEditWorkspace::EGUIEDIT_MODE CGUIEditWorkspace::getModeFromPos(core::positio
     return EGUIEDM_SELECT;
 }
 
-IGUIElement* CGUIEditWorkspace::getEditableElementFromPoint(IGUIElement* start, const core::position2di& point, s32 index)
+boost::shared_ptr<IGUIElement> CGUIEditWorkspace::getEditableElementFromPoint(boost::shared_ptr<IGUIElement> start, const core::position2di& point, s32 index)
 {
-    IGUIElement* target = 0;
+    boost::shared_ptr<IGUIElement> target = 0;
 
     // we have to search from back to front.
 
-    core::list<IGUIElement*>::ConstIterator it = start->getChildren().getLast();
+    core::list<boost::shared_ptr<IGUIElement>>::ConstIterator it = start->getChildren().getLast();
     s32 count = 0;
     while (it != start->getChildren().end()) {
         target = getEditableElementFromPoint((*it), point);
         if (target) {
-            if (!target->isSubElement() && !isMyChild(target) && target != this && target->getType() != irr::gui::EGUI_ELEMENT_TYPE::EGUIET_COUNT) {
+            if (!target->isSubElement() && !isMyChild(target) && target.get() != this && target->getType() != irr::gui::EGUI_ELEMENT_TYPE::EGUIET_COUNT) {
                 if (index == count)
                     return target;
                 else
@@ -115,14 +115,15 @@ IGUIElement* CGUIEditWorkspace::getEditableElementFromPoint(IGUIElement* start, 
     return target;
 }
 
-void CGUIEditWorkspace::setSelectedElement(IGUIElement* sel)
+void CGUIEditWorkspace::setSelectedElement(boost::shared_ptr<IGUIElement> sel)
 {
-    IGUIElement* focus = Environment->getFocus();
+    boost::shared_ptr<IGUIEnvironment> lockedEnvironment = getSharedEnvironment();
+    boost::shared_ptr<IGUIElement> focus = lockedEnvironment->getFocus();
     // we only give focus back to children
     if (!isMyChild(focus))
         focus = 0;
 
-    if (SelectedElement != Parent) {
+    if (SelectedElement != getParent()) {
         if (SelectedElement != sel) {
             SelectedElement = sel;
         }
@@ -130,27 +131,27 @@ void CGUIEditWorkspace::setSelectedElement(IGUIElement* sel)
         SelectedElement = 0;
 
     if (focus)
-        Environment->setFocus(focus);
+        lockedEnvironment->setFocus(focus);
     else
-        Environment->setFocus(this);
+        lockedEnvironment->setFocus(getSharedThis());
 
     onGuiElementSelected.callHandlers(SelectedElement);
 }
 
-IGUIElement* CGUIEditWorkspace::getSelectedElement()
+boost::shared_ptr<IGUIElement> CGUIEditWorkspace::getSelectedElement()
 {
     return SelectedElement;
 }
 void CGUIEditWorkspace::selectNextSibling()
 {
-    IGUIElement* p = 0;
+    boost::shared_ptr<IGUIElement> p = 0;
 
     if (SelectedElement && SelectedElement->getParent())
         p = SelectedElement->getParent();
     else
-        p = Parent;
+        p = getParent();
 
-    core::list<IGUIElement*>::ConstIterator it = p->getChildren().begin();
+    core::list<boost::shared_ptr<IGUIElement>>::ConstIterator it = p->getChildren().begin();
     // find selected element
     if (SelectedElement)
         while (*it != SelectedElement)
@@ -166,14 +167,14 @@ void CGUIEditWorkspace::selectNextSibling()
 }
 void CGUIEditWorkspace::selectPreviousSibling()
 {
-    IGUIElement* p = 0;
+    boost::shared_ptr<IGUIElement> p = 0;
 
     if (SelectedElement && SelectedElement->getParent())
         p = SelectedElement->getParent();
     else
-        p = Parent;
+        p = getParent();
 
-    core::list<IGUIElement*>::ConstIterator it = p->getChildren().getLast();
+    core::list<boost::shared_ptr<IGUIElement>>::ConstIterator it = p->getChildren().getLast();
     // find selected element
     if (SelectedElement)
         while (*it != SelectedElement)
@@ -198,7 +199,7 @@ bool CGUIEditWorkspace::OnEvent(const SEvent& e)
             switch (e.KeyInput.Key) {
             case KEY_DELETE:
                 if (SelectedElement) {
-                    IGUIElement* el = SelectedElement;
+                    boost::shared_ptr<IGUIElement> el = SelectedElement;
                     setSelectedElement(0);
                     MouseOverElement = 0;
                     el->remove();
@@ -209,7 +210,7 @@ bool CGUIEditWorkspace::OnEvent(const SEvent& e)
                     // cut
                     CopySelectedElementXML();
                     // delete element
-                    IGUIElement* el = SelectedElement;
+                    boost::shared_ptr<IGUIElement> el = SelectedElement;
                     setSelectedElement(0);
                     MouseOverElement = 0;
                     el->remove();
@@ -235,7 +236,8 @@ bool CGUIEditWorkspace::OnEvent(const SEvent& e)
         }
         break;
 
-    case EET_MOUSE_INPUT_EVENT:
+    case EET_MOUSE_INPUT_EVENT: {
+        boost::shared_ptr<IGUIElement> lockedParent = getParent();
 
         switch (e.MouseInput.Event) {
         case EMIE_MOUSE_WHEEL: {
@@ -249,11 +251,11 @@ bool CGUIEditWorkspace::OnEvent(const SEvent& e)
         case EMIE_LMOUSE_PRESSED_DOWN: {
             core::position2di p = core::position2di(e.MouseInput.X, e.MouseInput.Y);
 
-            IGUIElement* newSelection = getElementFromPoint(p);
+            boost::shared_ptr<IGUIElement> newSelection = getElementFromPoint(p);
 
-            if (newSelection != this && isMyChild(newSelection)) // redirect event
+            if (newSelection.get() != this && isMyChild(newSelection)) // redirect event
             {
-                Environment->setFocus(newSelection);
+                getSharedEnvironment()->setFocus(newSelection);
                 return true;
             }
 
@@ -272,9 +274,9 @@ bool CGUIEditWorkspace::OnEvent(const SEvent& e)
 
                 if (CurrentMode < EGUIEDM_MOVE) {
                     // selecting an element...
-                    MouseOverElement = getEditableElementFromPoint(Parent, p);
+                    MouseOverElement = getEditableElementFromPoint(lockedParent, p);
 
-                    if (MouseOverElement == Parent)
+                    if (MouseOverElement == lockedParent)
                         MouseOverElement = 0;
 
                     setSelectedElement(MouseOverElement);
@@ -288,7 +290,7 @@ bool CGUIEditWorkspace::OnEvent(const SEvent& e)
             // make window visible again
             if (CurrentMode == EGUIEDM_SELECT_NEW_PARENT) {
                 if (SelectedElement) {
-                    MouseOverElement = getEditableElementFromPoint(Parent,
+                    MouseOverElement = getEditableElementFromPoint(lockedParent,
                         core::position2di(e.MouseInput.X, e.MouseInput.Y));
                     if (MouseOverElement) {
                         MouseOverElement->addChild(SelectedElement);
@@ -297,8 +299,9 @@ bool CGUIEditWorkspace::OnEvent(const SEvent& e)
                     }
                 }
                 CurrentMode = EGUIEDM_SELECT;
-            } else if (CurrentMode >= EGUIEDM_MOVE) {
-                IGUIElement* sel = SelectedElement;
+            }
+            else if (CurrentMode >= EGUIEDM_MOVE) {
+                boost::shared_ptr<IGUIElement> sel = SelectedElement;
                 // unselect
                 setSelectedElement(0);
 
@@ -318,7 +321,7 @@ bool CGUIEditWorkspace::OnEvent(const SEvent& e)
             break;
         case EMIE_MOUSE_MOVED:
             // always on top
-            Parent->bringToFront(this);
+            lockedParent->bringToFront(getSharedThis());
 
             // if selecting
             if (CurrentMode == EGUIEDM_SELECT || CurrentMode == EGUIEDM_SELECT_NEW_PARENT) {
@@ -326,8 +329,8 @@ bool CGUIEditWorkspace::OnEvent(const SEvent& e)
                 core::position2di p = core::position2di(e.MouseInput.X, e.MouseInput.Y);
 
                 // highlight the element that the mouse is over
-                MouseOverElement = getEditableElementFromPoint(Parent, p);
-                if (MouseOverElement == Parent) {
+                MouseOverElement = getEditableElementFromPoint(lockedParent, p);
+                if (MouseOverElement == lockedParent) {
                     MouseOverElement = 0;
                 }
 
@@ -337,7 +340,8 @@ bool CGUIEditWorkspace::OnEvent(const SEvent& e)
                         MouseOverElement = SelectedElement;
                     }
                 }
-            } else if (CurrentMode == EGUIEDM_MOVE) {
+            }
+            else if (CurrentMode == EGUIEDM_MOVE) {
                 // get difference
                 core::position2di p = core::position2di(e.MouseInput.X, e.MouseInput.Y);
                 p -= DragStart;
@@ -350,7 +354,8 @@ bool CGUIEditWorkspace::OnEvent(const SEvent& e)
                 }
 
                 SelectedArea += p - SelectedArea.UpperLeftCorner;
-            } else if (CurrentMode > EGUIEDM_MOVE) {
+            }
+            else if (CurrentMode > EGUIEDM_MOVE) {
                 // get difference from start position
                 core::position2di p = core::position2di(e.MouseInput.X, e.MouseInput.Y);
                 if (UseGrid) {
@@ -395,6 +400,7 @@ bool CGUIEditWorkspace::OnEvent(const SEvent& e)
             break;
         }
         break;
+    }
     default:
         break;
     }
@@ -407,7 +413,7 @@ bool CGUIEditWorkspace::OnEvent(const SEvent& e)
 //! draws the element and its children
 void CGUIEditWorkspace::draw()
 {
-    video::IVideoDriver* driver = Environment->getVideoDriver();
+    boost::shared_ptr<video::IVideoDriver> driver = getSharedEnvironment()->getVideoDriver();
 
     if (DrawGrid) {
         // draw the grid
@@ -424,7 +430,7 @@ void CGUIEditWorkspace::draw()
             cy += GridSize.Height;
         }
     }
-    if (MouseOverElement && MouseOverElement != SelectedElement && MouseOverElement != Parent) {
+    if (MouseOverElement && MouseOverElement != SelectedElement && MouseOverElement != getParent()) {
         core::rect<s32> r = MouseOverElement->getAbsolutePosition();
         driver->draw2DRectangle(video::SColor(100, 0, 0, 255), r);
     }
@@ -509,7 +515,7 @@ bool CGUIEditWorkspace::getUseGrid()
 }
 
 //! Removes a child.
-void CGUIEditWorkspace::removeChild(IGUIElement* child)
+void CGUIEditWorkspace::removeChild(boost::shared_ptr<IGUIElement> child)
 {
     IGUIElement::removeChild(child);
 
@@ -522,10 +528,13 @@ void CGUIEditWorkspace::CopySelectedElementXML()
     core::stringc XMLText;
     core::stringw wXMLText;
     // create memory write file
-    io::CMemoryReadWriteFile* memWrite = new io::CMemoryReadWriteFile("#Clipboard#");
+    boost::shared_ptr<io::CMemoryReadWriteFile> memWrite = boost::make_shared<io::CMemoryReadWriteFile>("#Clipboard#");
+
+    boost::shared_ptr<IGUIEnvironment> lockedEnvironment = getSharedEnvironment();
+
     // save gui to mem file
-    io::IXMLWriter* xml = Environment->getFileSystem()->createXMLWriter(memWrite);
-    Environment->writeGUIElement(xml, SelectedElement);
+    io::IXMLWriter* xml = lockedEnvironment->getFileSystem()->createXMLWriter(memWrite);
+    lockedEnvironment->writeGUIElement(xml, SelectedElement);
 
     // copy to clipboard- wide chars not supported yet :(
     wXMLText = (wchar_t*)&memWrite->getData()[0];
@@ -533,15 +542,16 @@ void CGUIEditWorkspace::CopySelectedElementXML()
     if (wXMLText.size() > i)
         wXMLText[i] = L'\0';
     XMLText = wXMLText.c_str();
-    memWrite->drop();
     xml->drop();
-    Environment->getOSOperator()->copyToClipboard(XMLText.c_str());
+    lockedEnvironment->getOSOperator()->copyToClipboard(XMLText.c_str());
 }
 
 void CGUIEditWorkspace::PasteXMLToSelectedElement()
 {
+    boost::shared_ptr<IGUIEnvironment> lockedEnvironment = getSharedEnvironment();
+
     // get clipboard data
-    const char* p = Environment->getOSOperator()->getTextFromClipboard();
+    const char* p = lockedEnvironment->getOSOperator()->getTextFromClipboard();
 
     // convert to stringw
     // TODO: we should have such a function in core::string
@@ -552,9 +562,9 @@ void CGUIEditWorkspace::PasteXMLToSelectedElement()
     irr::core::stringw wXMLText(ws);
     delete[] ws;
 
-    io::CMemoryReadWriteFile* memWrite = new io::CMemoryReadWriteFile("#Clipboard#");
+    boost::shared_ptr<io::CMemoryReadWriteFile> memWrite = boost::make_shared<io::CMemoryReadWriteFile>("#Clipboard#");
 
-    io::IXMLWriter* xmlw = Environment->getFileSystem()->createXMLWriter(memWrite);
+    io::IXMLWriter* xmlw = lockedEnvironment->getFileSystem()->createXMLWriter(memWrite);
     xmlw->writeXMLHeader(); // it needs one of those
     xmlw->drop();
 
@@ -565,12 +575,9 @@ void CGUIEditWorkspace::PasteXMLToSelectedElement()
     memWrite->seek(0, false);
 
     // read xml
-    Environment->loadGUI(memWrite, SelectedElement);
+    lockedEnvironment->loadGUI(memWrite, SelectedElement);
 
     // reset focus
-    Environment->setFocus(this);
-
-    // drop the read file
-    memWrite->drop();
+    lockedEnvironment->setFocus(getSharedThis());
 }
 }
