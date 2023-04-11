@@ -320,7 +320,7 @@ std::wstring GuiEditorGraphicContext::getSelectImageElementPath() const
 
     auto imageElement = boost::dynamic_pointer_cast<irr::gui::IGUIImage>(selectedElement);
 
-    return imageElement ? imageElement->getImage()->getName().getPath().c_str() : std::wstring();
+    return imageElement && imageElement->getImage() ? imageElement->getImage()->getName().getPath().c_str() : std::wstring();
 }
 
 void GuiEditorGraphicContext::setSelectedImageElementPath(const std::wstring& newPath, const VoidEventCallback& callback)

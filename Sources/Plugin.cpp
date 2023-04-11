@@ -21,6 +21,9 @@ void Plugin::onTopMenuItemClicked(const std::wstring& openedProjectPath, HWND pa
     // That's okay, don't worry. wxWidgets library
     // will clean the memory on it's own
     new wxApp();
+
+    wxImage::AddHandler(new wxJPEGHandler);
+
     auto handle = GetModuleHandle(CURRENR_MODULE_NAME);
 
     assert(handle != nullptr);

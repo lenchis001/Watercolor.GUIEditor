@@ -28,7 +28,7 @@ void ImageGuiElementPropertyGrid::_addPathProperty()
 
 void ImageGuiElementPropertyGrid::_changePathPropertyHandler(wxPGProperty* eventProperty)
 {
-    auto newPath = eventProperty->GetValueAsString().ToStdWstring();
+    auto newPath = eventProperty->GetValue().GetString().ToStdWstring();
 
     _graphicContext->setSelectedImageElementPath(newPath);
 }
